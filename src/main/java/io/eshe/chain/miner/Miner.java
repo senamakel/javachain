@@ -13,10 +13,10 @@ public class Miner {
 
         int index = previousBlock.getIndex() + 1;
         long timestamp = System.currentTimeMillis();
-        String previous_hash = previousBlock.getHash();
-        String hash = PoW.generateHash(index, previous_hash, timestamp, data);
+        String previousHash = previousBlock.getHash();
+        String hash = PoW.generateHash(index, previousHash, timestamp, data);
 
-        return new Block(index, previous_hash, timestamp, hash, data);
+        return new Block(index, previousHash, timestamp, hash, data);
     }
 
 

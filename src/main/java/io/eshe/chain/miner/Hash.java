@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Hash {
     private static final byte[] hashBuff = new byte[20];
-    private static MessageDigest md = null;
+    private static MessageDigest messageDigest = null;
     private static int MAX_BITS = hashBuff.length * Byte.SIZE;
 
     private static Map<Character, String> charBinStrMap = new HashMap<Character, String>();
@@ -66,20 +66,17 @@ public class Hash {
      * @throws DigestException
      */
     public static boolean valid(int numBits, String stamp) throws NoSuchAlgorithmException, DigestException {
-
         if (numBits > MAX_BITS) {
             throw new IllegalArgumentException(String.format("Parameter numBits has a maximum size of %d", MAX_BITS));
         }
 
         boolean result = false;
 
-        if (md == null) {
-            md = MessageDigest.getInstance("SHA1");
-        }
+        if (messageDigest == null) messageDigest = MessageDigest.getInstance("SHA1");
 
-        md.reset();
-        md.update(stamp.getBytes());
-        md.digest(hashBuff, 0, hashBuff.length);
+        messageDigest.reset();
+        messageDigest.update(stamp.getBytes());
+        messageDigest.digest(hashBuff, 0, hashBuff.length);
 
 		/*
          * Have to use >>>, which causes zero-fill. Java's all signed, so the
@@ -88,7 +85,7 @@ public class Hash {
 
         if (numBits < Integer.SIZE) {
             /*
-			 * The efficient solution, construct an integer representation of
+             * The efficient solution, construct an integer representation of
 			 * the stamp. Then compare it against a bitmask with the required
 			 * number of leading zeroes.
 			 */
@@ -159,7 +156,7 @@ public class Hash {
         String randStr = genRandStr();
         int counter = 1;
 
-        while (result == null) {
+        while (true) {
             String stamp = String.format("%s:%s:%s:%s:%s:%s:%s", version, numBits, dateStr, resourceStr, ext, randStr,
                     counter);
 
