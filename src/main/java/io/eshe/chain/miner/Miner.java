@@ -2,6 +2,7 @@ package io.eshe.chain.miner;
 
 import io.eshe.chain.block.Block;
 import io.eshe.chain.block.BlockData;
+import io.eshe.chain.block.Order;
 import io.eshe.chain.chain.Blockchain;
 
 import java.security.DigestException;
@@ -27,4 +28,27 @@ public class Miner {
                 previousBlock.getHash().equals(newBlock.getPreviousHash()) &&
                 PoW.validate(newBlock.getHash());
     }
+
+
+    private void validateNewOrders(BlockData data) {
+        for (BlockData.OrderPair pair : data.getOrderpairs()) {
+            String aliceAddress = pair.getA().getFromAddress();
+            String bobAddress = pair.getB().getFromAddress();
+
+
+        }
+    }
+
+
+    private void validateOrderPaid(BlockData.OrderPair pair) {
+        Order aliceOrder = pair.getA();
+        Order bobOrder = pair.getB();
+
+        String aliceAddress = aliceOrder.getFromAddress();
+        String bobAddress = bobOrder.getFromAddress();
+
+        // First validate the signatures of the orders
+        aliceOrder.getSignature();
+    }
 }
+
