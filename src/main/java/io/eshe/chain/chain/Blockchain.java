@@ -5,13 +5,14 @@ import io.eshe.chain.block.BlockUtil;
 
 import java.util.Stack;
 
-public class Blockchain {
 
+public class Blockchain {
     private static Stack<Block> blockchain;
 
     static {
         initBlockchain();
     }
+
 
     public static Block getLatestBlock() {
         return blockchain.peek();

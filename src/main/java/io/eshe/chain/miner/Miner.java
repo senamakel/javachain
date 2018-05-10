@@ -9,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class Miner {
     public static Block generateNewBlock(BlockData data) throws NoSuchAlgorithmException, DigestException {
-
         Block previous_block = Blockchain.getLatestBlock();
         int index = previous_block.getIndex() + 1;
         long timestamp = System.currentTimeMillis();

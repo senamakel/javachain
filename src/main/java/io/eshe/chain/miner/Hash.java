@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Hash {
-
     private static final byte[] hashBuff = new byte[20];
     private static MessageDigest md = null;
     private static int MAX_BITS = hashBuff.length * Byte.SIZE;
@@ -88,7 +87,7 @@ public class Hash {
 		 */
 
         if (numBits < Integer.SIZE) {
-			/*
+            /*
 			 * The efficient solution, construct an integer representation of
 			 * the stamp. Then compare it against a bitmask with the required
 			 * number of leading zeroes.
