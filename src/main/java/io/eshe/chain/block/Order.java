@@ -1,11 +1,15 @@
 package io.eshe.chain.block;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author enamakel@eshe.io
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
     String signature;
 
@@ -24,7 +28,7 @@ public class Order {
 
     // The exchange should ideally set this. This will instruct the miners to take this much of the base asset as
     // transaction fees.
-    Double transactionFeeAddress;
+    String transactionFeeAddress;
     Double transactionFeeAmount;
 
 

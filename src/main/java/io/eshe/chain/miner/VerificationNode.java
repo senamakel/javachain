@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.security.DigestException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Stack;
 
 /**
  * This node is used to verify on-chain transactions. All order-matching verification, distribution of transaction
@@ -19,24 +20,36 @@ import java.security.NoSuchAlgorithmException;
  */
 public class VerificationNode extends Thread {
     private final static Logger logger = LoggerFactory.getLogger(VerificationNode.class);
+    private final Stack<BlockData.Transaction> pendingTransactions = new Stack<>();
 
 
     @Override public void run() {
         logger.debug("initializing");
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 500; i++) {
             try {
                 BlockData data = new BlockData();
+
+                // At a time, let each block process at most a 100 transactions
+                for (int j = 0; j < 100 && pendingTransactions.size() > 0; j++)
+                    data.getTransactions().add(pendingTransactions.pop());
+
+                // Once the data is set, we go about to create the new block
                 Block block = generateNewBlock(data);
 
+                // Check if the block is valid and if so, we push it onto the blockchain
                 if (isNewBlockValid(block)) Blockchain.pushNewBlock(block);
 
-                System.out.println(block.getHash());
-
+                logger.debug(block.getHash());
             } catch (NoSuchAlgorithmException | DigestException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    public void queueTransaction(BlockData.Transaction tx) {
+        if (tx.validate()) pendingTransactions.add(tx);
     }
 
 
@@ -64,7 +77,7 @@ public class VerificationNode extends Thread {
      * @param newBlock The block to check
      * @return True iff the block is valid
      */
-    public static boolean isNewBlockValid(Block newBlock) throws NoSuchAlgorithmException, DigestException {
+    public boolean isNewBlockValid(Block newBlock) throws NoSuchAlgorithmException, DigestException {
         Block previousBlock = Blockchain.getLatestBlock();
 
         return previousBlock.getIndex() == newBlock.getIndex() - 1 &&

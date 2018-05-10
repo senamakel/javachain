@@ -1,5 +1,7 @@
 package io.eshe.chain.miner;
 
+import io.eshe.chain.block.Address;
+import io.eshe.chain.chain.Blockchain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,5 +19,30 @@ public class VoucherNode extends Thread {
 
     @Override public void run() {
         logger.debug("initializing");
+    }
+
+
+    public void processNewDeposit(String assetId, String address, Double amount) {
+        Address address1 = Blockchain.getAddress(address);
+
+        if (address1 == null) address1 = new Address(address);
+
+        Double previousBalance = address1.getBalance(assetId);
+        address1.setBalance(assetId, previousBalance + amount);
+
+        Blockchain.updateAddress(address1);
+    }
+
+
+    public void processNewWithdrawl(String assetId, String address, Double amount) {
+        Address address1 = Blockchain.getAddress(address);
+
+        if (address1 == null) address1 = new Address(address);
+
+        // Todo: make sure this is +ve
+        Double previousBalance = address1.getBalance(assetId);
+        address1.setBalance(assetId, previousBalance - amount);
+
+        Blockchain.updateAddress(address1);
     }
 }
