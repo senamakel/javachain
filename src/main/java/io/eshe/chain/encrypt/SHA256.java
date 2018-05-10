@@ -1,4 +1,4 @@
-package io.eshe.chain.encript;
+package io.eshe.chain.encrypt;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
