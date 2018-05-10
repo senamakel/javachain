@@ -1,4 +1,4 @@
-package io.eshe.chain.init;
+package io.eshe.chain;
 
 import io.eshe.chain.block.Block;
 import io.eshe.chain.block.BlockData;
@@ -8,7 +8,7 @@ import io.eshe.chain.miner.Miner;
 import java.security.DigestException;
 import java.security.NoSuchAlgorithmException;
 
-public class Init {
+public class Main {
     public static void main(String[] args) throws NoSuchAlgorithmException, DigestException {
         for (int i = 0; i < 100; i++) {
             BlockData data = new BlockData("Andre", i);
