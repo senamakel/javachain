@@ -1,6 +1,6 @@
 package io.eshe.chain.block;
 
-import io.eshe.chain.encript.SHA256;
+import io.eshe.chain.encrypt.SHA256;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -11,6 +11,7 @@ public class BlockUtil {
         long timestamp = System.currentTimeMillis();
         String previousHash = "0";
         String hash = "0";
+
         BlockData data = new BlockData("burokuru-shuriken", 42);
 
         return new Block(index, previousHash, timestamp, hash, data);

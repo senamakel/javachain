@@ -9,6 +9,7 @@ import java.util.Stack;
 public class Blockchain {
     private static Stack<Block> blockchain;
 
+
     static {
         initBlockchain();
     }
