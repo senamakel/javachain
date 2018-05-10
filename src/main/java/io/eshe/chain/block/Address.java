@@ -1,5 +1,6 @@
 package io.eshe.chain.block;
 
+import io.eshe.chain.chain.Blockchain;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -11,18 +12,37 @@ import java.util.Map;
  */
 @Data
 public class Address {
-    String publicKey;
-
-    // { asset_id: balance }
+    String address;
     Map<String, Double> balances = new HashMap<>();
 
 
+    public Address(String address) {
+        this.address = address;
+    }
+
+
+    public void setBalance(String assetId, Double balance) {
+        balances.put(assetId, balance);
+    }
+
+
+    public void increaseBalance(String assetId, Double balance) {
+        balances.put(assetId, getBalance(assetId) + balance);
+    }
+
+    public void decreaseBalance(String assetId, Double balance) {
+        balances.put(assetId, getBalance(assetId) - balance);
+    }
+
+
     public Double getBalance(String assetId) {
-        return 0d;
+        if (!balances.containsKey(assetId)) return 0d;
+        return balances.get(assetId);
     }
 
 
     public static Double getBalance(String address, String assetId) {
-        return 0d;
+        Address address1 = Blockchain.getAddress(address);
+        return address1.getBalance(assetId);
     }
 }
