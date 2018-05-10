@@ -10,6 +10,12 @@ import java.security.DigestException;
 import java.security.NoSuchAlgorithmException;
 
 public class Miner {
+    /**
+     * Given the blockdata, generate a new block
+     *
+     * @param data The block data to include
+     * @return The newly generated block
+     */
     public static Block generateNewBlock(BlockData data) throws NoSuchAlgorithmException, DigestException {
         Block previousBlock = Blockchain.getLatestBlock();
 
@@ -22,42 +28,44 @@ public class Miner {
     }
 
 
+    /**
+     * Check if a given block is valid
+     *
+     * @param newBlock The block to check
+     * @return True iff the block is valid
+     */
     public static boolean isNewBlockValid(Block newBlock) throws NoSuchAlgorithmException, DigestException {
         Block previousBlock = Blockchain.getLatestBlock();
 
         return previousBlock.getIndex() == newBlock.getIndex() - 1 &&
                 previousBlock.getHash().equals(newBlock.getPreviousHash()) &&
+                validateNewOrders(newBlock.getData()) &&
                 PoW.validate(newBlock.getHash());
     }
 
 
-    private void validateNewOrders(BlockData data) {
-        for (BlockData.OrderPair pair : data.getOrderpairs()) validateOrderPair(pair);
+    /**
+     * Helper function to validate all the order pairs
+     *
+     * @param data The block data
+     * @return True iff all the order pair is valid.
+     */
+    private static boolean validateNewOrders(BlockData data) {
+        for (BlockData.Transaction pair : data.getTransactions())
+            if (!validateOrderPair(pair)) return false;
+        return true;
     }
-
-    // Alice wants to buy 5 BTC for 10  $ ->            0.5 BTC/$ vol:
-    // Bob   wants to buy   15$ for 6 BTC -> 2 $/BTC -> 0.4 BTC/$
-
-    // Alice wants to buy   5 BTC for 10$ -> price
-    // Bob   wants to sell  6 BTC for 15$ -> price
-    // Alice -> 0$ 5BTC ----- Bob -> 5$ 1BTC
-
-
-    // Bob has more volumed
-    // Alice wants to buy  5 BTC for 10$/BTC vol: 50$
-    // Bob   wants to sell 6 BTC for 10$/BTC vol: 60$
-    // ---->
 
 
     /**
-     * This function validates an OrderPair by checking the balances of both parties and seeing if they are satisfied.
+     * This function validates an Transaction by checking the balances of both parties and seeing if they are satisfied.
      * <p>
      * TODO: write unit tests for this
      *
-     * @param pair
+     * @param pair The pair to validate against with
      * @return True iff the order pair is valid.
      */
-    private boolean validateOrderPair(BlockData.OrderPair pair) {
+    private static boolean validateOrderPair(BlockData.Transaction pair) {
         Order aliceOrder = pair.getA();
         Order bobOrder = pair.getB();
 
@@ -81,9 +89,7 @@ public class Miner {
             // If Alice's price is higher than that of Bob's, make sure that alice is buying (Alice will prefer
             // to pay less for the price she is buying for).
             if (bobOrder.getIsBuyOrder()) return false;
-        } else {
-            // else alicePrice == bobPrice, which is all good..
-        }
+        } // else alicePrice == bobPrice, which is all good..
 
         // check alice's and bob's balance
         if (aliceOrder.getIsBuyOrder()) {

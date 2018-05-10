@@ -12,7 +12,7 @@ public class BlockUtil {
         String previousHash = "0";
         String hash = "0";
 
-        BlockData data = new BlockData("burokuru-shuriken", 42);
+        BlockData data = new BlockData();
 
         return new Block(index, previousHash, timestamp, hash, data);
     }
@@ -20,7 +20,6 @@ public class BlockUtil {
 
     public static String wrapBlockContent(int index, String previousHash, long timestamp, BlockData data)
             throws NoSuchAlgorithmException {
-
         String content = index + previousHash + timestamp + data.toString();
         return SHA256.toSha256(content);
     }

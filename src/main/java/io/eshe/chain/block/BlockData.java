@@ -8,26 +8,18 @@ import java.util.List;
 
 @Data
 public class BlockData {
-    private String name;
-    private int age;
-
-    private List<OrderPair> orderpairs = new ArrayList<>();
-
-
-    public BlockData(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
+    private List<Transaction> transactions = new ArrayList<>();
 
 
     @Override
     public String toString() {
-        return name + "n" + age;
+        // todo: convert orderPairs to string
+        return "n";
     }
 
 
     @Data
-    public static class OrderPair {
+    public static class Transaction {
         Order A;
         Order B;
     }

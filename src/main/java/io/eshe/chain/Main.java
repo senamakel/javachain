@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 public class Main {
     public static void main(String[] args) throws NoSuchAlgorithmException, DigestException {
         for (int i = 0; i < 100; i++) {
-            BlockData data = new BlockData("Andre", i);
+            BlockData data = new BlockData();
             Block block = Miner.generateNewBlock(data);
 
             if (Miner.isNewBlockValid(block))
