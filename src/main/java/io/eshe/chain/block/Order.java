@@ -15,9 +15,23 @@ public class Order {
     String baseAssetId;
     String quoteAssetId;
 
+    // This basically says that this order would like to trade
+    // 'amount' quoteAsset at 'price' worth of baseAsset
     Double amount;
     Double price;
 
+    Boolean isBuyOrder;
+
     Double transactionFeeAddress;
     Double transactionFeeAmount;
+
+
+    public Double getVolume () {
+        return amount * price;
+    }
+
+    public boolean verifyOrder(String publicKey) {
+        // Todo: verify the order using the given public key
+        return true;
+    }
 }

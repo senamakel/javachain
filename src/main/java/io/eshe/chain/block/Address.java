@@ -15,4 +15,14 @@ public class Address {
 
     // { asset_id: balance }
     Map<String, Double> balances = new HashMap<>();
+
+
+    public Double getBalance(String assetId) {
+        return 0d;
+    }
+
+
+    public static Double getBalance(String address, String assetId) {
+        return 0d;
+    }
 }
