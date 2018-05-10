@@ -13,7 +13,7 @@ public class BlockData {
 
     @Override
     public String toString() {
-        // todo: convert orderPairs to string
+        // todo: convert transactions to string
         return "n";
     }
 

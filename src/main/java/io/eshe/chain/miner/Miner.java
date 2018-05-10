@@ -39,35 +39,35 @@ public class Miner {
 
         return previousBlock.getIndex() == newBlock.getIndex() - 1 &&
                 previousBlock.getHash().equals(newBlock.getPreviousHash()) &&
-                validateNewOrders(newBlock.getData()) &&
+                validateTransactions(newBlock.getData()) &&
                 PoW.validate(newBlock.getHash());
     }
 
 
     /**
-     * Helper function to validate all the order pairs
+     * Helper function to validate all the transactions
      *
      * @param data The block data
-     * @return True iff all the order pair is valid.
+     * @return True iff all the transaction is valid.
      */
-    private static boolean validateNewOrders(BlockData data) {
-        for (BlockData.Transaction pair : data.getTransactions())
-            if (!validateOrderPair(pair)) return false;
+    private static boolean validateTransactions(BlockData data) {
+        for (BlockData.Transaction transaction : data.getTransactions())
+            if (!validateTransaction(transaction)) return false;
         return true;
     }
 
 
     /**
-     * This function validates an Transaction by checking the balances of both parties and seeing if they are satisfied.
+     * This function validates a transaction by checking the balances of both parties and seeing if they are satisfied.
      * <p>
      * TODO: write unit tests for this
      *
-     * @param pair The pair to validate against with
-     * @return True iff the order pair is valid.
+     * @param transaction The transaction to validate
+     * @return True iff the transaction is valid.
      */
-    private static boolean validateOrderPair(BlockData.Transaction pair) {
-        Order aliceOrder = pair.getA();
-        Order bobOrder = pair.getB();
+    private static boolean validateTransaction(BlockData.Transaction transaction) {
+        Order aliceOrder = transaction.getA();
+        Order bobOrder = transaction.getB();
 
         String aliceAddress = aliceOrder.getFromAddress();
         String bobAddress = bobOrder.getFromAddress();
