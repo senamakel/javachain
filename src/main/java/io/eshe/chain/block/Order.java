@@ -22,13 +22,16 @@ public class Order {
 
     Boolean isBuyOrder;
 
+    // The exchange should ideally set this. This will instruct the miners to take this much of the base asset as
+    // transaction fees.
     Double transactionFeeAddress;
     Double transactionFeeAmount;
 
 
-    public Double getVolume () {
+    public Double getVolume() {
         return amount * price;
     }
+
 
     public boolean verifyOrder(String publicKey) {
         // Todo: verify the order using the given public key

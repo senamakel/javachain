@@ -87,14 +87,18 @@ public class Miner {
 
         // check alice's and bob's balance
         if (aliceOrder.getIsBuyOrder()) {
+            // If Alice is buying, make sure she has enough of the quote asset (that she's giving away) in her account
+            // and make sure that Bob has enough of the base asset (that he's giving away) in his account.
             if (Address.getBalance(aliceAddress, aliceOrder.getQuoteAssetId()) < aliceOrder.getVolume()) return false;
-            if (Address.getBalance(bobAddress, bobOrder.getBaseAssetId()) > 0) return false;
+            if (Address.getBalance(bobAddress, bobOrder.getBaseAssetId()) < bobOrder.getAmount()) return false;
         } else {
+            // vice-versa
             if (Address.getBalance(bobAddress, bobOrder.getQuoteAssetId()) < bobOrder.getVolume()) return false;
-            if (Address.getBalance(aliceAddress, aliceOrder.getBaseAssetId()) > 0) return false;
+            if (Address.getBalance(aliceAddress, aliceOrder.getBaseAssetId()) < aliceOrder.getAmount()) return false;
         }
 
-        // Validate the signatures of the orders
+        // Validate the signatures of the orders. This will ensure us that Alice and Bob have validate these orders
+        // that the exchange has sent to the miners.
         if (!aliceOrder.verifyOrder(aliceAddress) || !bobOrder.verifyOrder(bobAddress))
             return false;
 
