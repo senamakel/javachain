@@ -13,6 +13,7 @@ public class Init {
         for (int i = 0; i < 100; i++) {
             BlockData data = new BlockData("Andre", i);
             Block block = Miner.generateNewBlock(data);
+
             if (Miner.isNewBlockValid(block))
                 Blockchain.pushNewBlock(block);
 

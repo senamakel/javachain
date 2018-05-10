@@ -2,9 +2,9 @@ package io.eshe.chain.block;
 
 import lombok.Data;
 
+
 @Data
 public class BlockData {
-
     private String name;
     private int age;
 

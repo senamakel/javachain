@@ -10,10 +10,10 @@ public class PoW {
     private static final int NUM_BITS = 16;
 
 
-    public static String generateHash(int index, String previous_hash, long timestamp, BlockData data)
+    public static String generateHash(int index, String previousHash, long timestamp, BlockData data)
             throws NoSuchAlgorithmException, DigestException {
 
-        String resource = BlockUtil.wrapBlockContent(index, previous_hash, timestamp, data);
+        String resource = BlockUtil.wrapBlockContent(index, previousHash, timestamp, data);
         return Hash.generate(NUM_BITS, resource);
     }
 

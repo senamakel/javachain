@@ -19,13 +19,13 @@ public class Blockchain {
     }
 
 
-    public static void pushNewBlock(Block new_block) {
-        blockchain.push(new_block);
+    public static void pushNewBlock(Block newBlock) {
+        blockchain.push(newBlock);
     }
 
 
     private static void initBlockchain() {
-        blockchain = new Stack<Block>();
+        blockchain = new Stack<>();
         blockchain.push(BlockUtil.generateGenesisBlock());
     }
 }
