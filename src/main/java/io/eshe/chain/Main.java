@@ -4,18 +4,15 @@ import io.eshe.chain.miner.StoremanNode;
 import io.eshe.chain.miner.VerificationNode;
 import io.eshe.chain.miner.VoucherNode;
 
-import java.security.DigestException;
-import java.security.NoSuchAlgorithmException;
-
 public class Main {
-    public static void main(String[] args) throws NoSuchAlgorithmException, DigestException {
+    public static void main(String[] args) {
         StoremanNode storemanNode = new StoremanNode();
-        storemanNode.run();
+        storemanNode.start();
 
         VerificationNode verificationNode = new VerificationNode();
-        verificationNode.run();
+        verificationNode.start();
 
         VoucherNode voucherNode = new VoucherNode();
-        voucherNode.run();
+        voucherNode.start();
     }
 }

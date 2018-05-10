@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @author enamakel@eshe.io
  */
 public class VoucherNode extends Thread {
-    private final static Logger logger = LoggerFactory.getLogger(VerificationNode.class);
+    private final static Logger logger = LoggerFactory.getLogger(VoucherNode.class);
 
 
     @Override public void run() {
